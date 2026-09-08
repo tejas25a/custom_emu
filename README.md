@@ -23,11 +23,13 @@ HLT     Halt CPU
 - GNU Make 4.4.1 
 
 ## Project Structure
+'''text
 .
 ├── Makefile
 ├── README.md
 └── src
     └── main.c
+'''
 
 ## Build & Test
 
