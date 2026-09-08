@@ -1,9 +1,9 @@
-#Custom Emu
+# Custom Emu
 Custom emulator is a small CPU emulator written in C.It simulates a Accumulator (A), a General-purpose register (B), a Program Counter, a Stack pointer, a byte size flag.
 
 The emulator has 1024 bytes of memory and supports 11 instructions(opcodes).It fetches instruction from memory and executes one by one, similar to a real CPU.
 
-##Supported Opcodes.
+## Supported Opcodes.
 
 Opcode Description
 NOP     No operation
@@ -18,18 +18,18 @@ JZ      Jump if zero
 OUT     print A
 HLT     Halt CPU
 
-##Requirements
+## Requirements
 - C-compiler - developed and test with gcc 16.2.1 
 - GNU Make 4.4.1 
 
-##Project Structure
+## Project Structure
 .
 ├── Makefile
 ├── README.md
 └── src
     └── main.c
 
-##Build & Test
+## Build & Test
 
 ### Build the project
 make       
