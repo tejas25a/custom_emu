@@ -4,7 +4,7 @@ Custom emulator is a small CPU emulator written in C.It simulates a Accumulator 
 The emulator has 1024 bytes of memory and supports 11 instructions(opcodes).It fetches instruction from memory and executes one by one, similar to a real CPU.
 
 ## Supported Opcodes.
-
+```text
 Opcode Description
 NOP     No operation
 LDI     Load immediate value into A
@@ -17,6 +17,8 @@ JMP     Jump to address
 JZ      Jump if zero
 OUT     print A
 HLT     Halt CPU
+
+```
 
 ## Requirements
 - C-compiler - developed and test with gcc 16.2.1 
