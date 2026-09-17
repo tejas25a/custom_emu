@@ -15,6 +15,11 @@
 #define OUT 0x0F // Prints A
 #define HLT 0xFF // Halts CPU
 
+//*changed
+//flag define
+#define CARRY_FLAG 0x01
+#define ZERO_FLAG 0x02
+
 
 // CPU
 typedef struct CPU{
@@ -26,9 +31,12 @@ typedef struct CPU{
     uint16_t mem[512]; 
 }CPU;
 
+//*changed
+//memomry is 16bit but the param1 is 8bit so 0xFF is not working
+//param1 changed from 8bit to 16bit 
 typedef struct INST{
     uint8_t opcode;
-    uint8_t param1;
+    uint16_t param1;
 
 }INST;
 
@@ -42,6 +50,15 @@ CPU cpu1 = {.A   = 0x0,
 
 
 CPU* cptr = &cpu1;
+
+//*changed
+//Funcion to upadate zero flag
+void update_zero_flag(){
+    if (cptr->A==0)
+        cptr->ZC |= ZERO_FLAG; //SET ZERO FLAG
+    else
+        cptr->ZC &= ~ZERO_FLAG; //CLEAR ZEROFLAG
+}
 
 INST* fetch(INST* inst){
 
@@ -61,6 +78,8 @@ void execute(INST* inst){
         case LDI:
             cptr->A = inst->param1;
             inst->param1 = 0x0;
+            //* upadte zero flag
+            update_zero_flag();
             cptr->PC = cptr->PC + sizeof(INST);
             break;
 
@@ -74,6 +93,8 @@ void execute(INST* inst){
            // Not working after 0xFF address
             cptr->A = cptr->mem[inst->param1];
             inst->param1 = 0x0;
+            //* upadte zero flag
+            update_zero_flag();
             cptr->PC = cptr->PC + sizeof(INST);
             break;
 
@@ -84,13 +105,18 @@ void execute(INST* inst){
             break;
 
        case ADD:
-           cptr->A = cptr->A + cptr->B; 
+           cptr->A = cptr->A + cptr->B;
+           //*upadte zero flag
+           update_zero_flag(); 
            cptr->PC = cptr->PC + sizeof(INST);
            break;
 
        case SUB:
            // currently cpu register is unsigned, -ve number cause underflow
            cptr->A = cptr->A - cptr->B; 
+           //*update zero flag
+           update_zero_flag();
+        
            cptr->PC = cptr->PC + sizeof(INST);
            break;
 
@@ -100,7 +126,11 @@ void execute(INST* inst){
             break;
 
         case JZ:
-            //Will be implemented after zero flag
+        //* jump only when zero flag is on
+            if (cptr->ZC & ZERO_FLAG)
+                cptr->PC=inst->param1;
+            else
+                cptr->PC=cptr->PC+sizeof(INST);
             break;
 
         case OUT:
